@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentos | EnviaFácil</title>
+    <link rel="stylesheet" href="docs.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <header>
+        <h1>Administração de Documentos</h1>
+    </header>
+    <main>
+        <button id="trash-btn" class="comment-btn" onclick="toggleTrash()">Lixeira</button>
+        <div class="container">
+            <section class="document-list">
+                <h2>Documentos Recebidos</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nome do Aluno</th>
+                            <th>Documento</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                        $conn = new mysqli('localhost', 'root', '', 'enviafacil');
+
+                        if ($conn->connect_error) {
+                            die("Erro de conexão: " . $conn->connect_error);
+                        }
+
+                        $sql = "SELECT id, nome_aluno, arquivo FROM documentos WHERE status = 'pendente'";
+                        $result = $conn->query($sql);
+
+                        if ($result->num_rows > 0) {
+                            while ($row = $result->fetch_assoc()) {
+                                echo "<tr>
+                                    <td>{$row['nome_aluno']}</td>
+                                    <td><a href='uploads/{$row['arquivo']}' target='_blank'>Visualizar Documento</a></td>
+                                    <td>
+                                        <form method='post' action='processa_documentos.php'>
+                                            <input type='hidden' name='id' value='{$row['id']}'>
+                                            <button type='submit' name='acao' value='aceitar' class='accept-btn'>Aceitar</button>
+                                            <button type='submit' name='acao' value='rejeitar' class='reject-btn'>Rejeitar</button>
+                                        </form>
+                                    </td>
+                                </tr>";
+                            }
+                        } else {
+                            echo "<tr><td colspan='3'>Nenhum documento pendente.</td></tr>";
+                        }
+
+                        $conn->close();
+                        ?>
+                    </tbody>
+                </table>
+            </section>
+
+            <section class="trash-list" id="trash-list" style="display: none;">
+                <h2>Documentos Rejeitados</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nome do Aluno</th>
+                            <th>Documento</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                        $conn = new mysqli('localhost', 'root', '', 'enviafacil');
+                        $sql = "SELECT nome_aluno, arquivo FROM documentos WHERE status = 'rejeitado'";
+                        $result = $conn->query($sql);
+
+                        if ($result->num_rows > 0) {
+                            while ($row = $result->fetch_assoc()) {
+                                echo "<tr>
+                                    <td>{$row['nome_aluno']}</td>
+                                    <td><a href='uploads/{$row['arquivo']}' target='_blank'>Visualizar Documento</a></td>
+                                </tr>";
+                            }
+                        } else {
+                            echo "<tr><td colspan='2'>Nenhum documento rejeitado.</td></tr>";
+                        }
+
+                        $conn->close();
+                        ?>
+                    </tbody>
+                </table>
+            </section>
+        </div>
+    </main>
+    <script src="docs.js"></script>
+</body>
+
+</html>

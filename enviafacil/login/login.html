@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title> Login | EnviaFácil </title>
+
+    <link rel="stylesheet" href="login.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+
+    <img src="wamp64/www/enviafacil/profile_8201.png" class="logo">
+
+
+    <main>
+
+        <section class="login-container">
+
+            <h2>Login</h2>
+
+            <form action="login.php" method="POST">
+                <label for="matricula">Matrícula:</label>
+                <input type="text" id="matricula" name="matricula" required>
+                
+                <label for="senha">Senha:</label>
+                <input type="password" id="senha" name="senha" required>
+                
+                <button type="submit">Login</button>
+            </form>
+            
+
+            <div class="forgot-password">
+
+                <a href="redef.html" target="_blank"> Esqueceu sua senha? </a>
+                
+            </div>
+
+            
+            <div id="error-message" class="error-message"></div>
+
+            <p class="register-link"> <a href="cadastro.html" target="_blank"> Ainda não tem uma conta? </a></p>
+
+        </section>
+
+    </main>
+
+    <script src="login.js"></script>
+
+    <!-- <footer>
+
+        <p>&copy; 2024 Uninassau. Todos os direitos reservados.</p>
+        
+    </footer> -->
+    
+</body>
+
+</html>
